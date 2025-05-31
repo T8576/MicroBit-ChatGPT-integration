@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Microbit ChatGPT Voice Assistant</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #f3f4f6;
+      --text: #1f2937;
+      --card: white;
+      --card-border: #e5e7eb;
+      --button-bg: #3b82f6;
+      --button-hover: #2563eb;
+    }
+
+    [data-theme="dark"] {
+      --bg: #1f2937;
+      --text: #f3f4f6;
+      --card: #111827;
+      --card-border: #374151;
+      --button-bg: #2563eb;
+      --button-hover: #1d4ed8;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: var(--bg);
+      color: var(--text);
+      padding: 2rem;
+      margin: auto;
+      max-width: 800px;
+      transition: background 0.3s, color 0.3s;
+    }
+    h1, h2 {
+      color: var(--text);
+    }
+    h1 {
+      font-size: 2rem;
+      margin-bottom: 1rem;
+    }
+    h2 {
+      font-size: 1.5rem;
+      margin-top: 2rem;
+      border-bottom: 2px solid var(--card-border);
+      padding-bottom: 0.25rem;
+    }
+    .button, .download-button, .external-link-button {
+      background-color: var(--button-bg);
+      color: white;
+      padding: 0.75rem 1.5rem;
+      text-decoration: none;
+      border-radius: 0.5rem;
+      display: inline-block;
+      font-weight: 600;
+      transition: background-color 0.2s;
+      margin-top: 0.5rem;
+    }
+    .button:hover, .download-button:hover, .external-link-button:hover {
+      background-color: var(--button-hover);
+    }
+    pre {
+      background-color: var(--bg);
+      padding: 1rem;
+      border-radius: 0.5rem;
+      overflow-x: auto;
+      border: 1px solid var(--card-border);
+    }
+    ul li {
+      margin-bottom: 0.5rem;
+    }
+    .file-links ul {
+      padding-left: 1rem;
+    }
+    .card {
+      background: var(--card);
+      padding: 1rem 1.5rem;
+      border-radius: 0.75rem;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+      margin-top: 1rem;
+      border: 1px solid var(--card-border);
+    }
+    .theme-toggle {
+      position: fixed;
+      top: 1rem;
+      right: 1rem;
+      background: var(--button-bg);
+      color: white;
+      border: none;
+      padding: 0.5rem 1rem;
+      border-radius: 0.5rem;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background 0.3s;
+      z-index: 1000;
+    }
+    .theme-toggle:hover {
+      background: var(--button-hover);
+    }
+    .platform-container {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+    .platform-button {
+      margin: 0.25rem;
+      padding: 0.5rem 1rem;
+      background: var(--button-bg);
+      color: white;
+      border: none;
+      border-radius: 0.5rem;
+      cursor: pointer;
+    }
+    .platform-button:hover {
+      background: var(--button-hover);
+    }
+    .platform-section {
+      display: none;
+    }
+    .platform-section.active {
+      display: block;
+    }
+    .step {
+      background: var(--card);
+      border: 1px solid var(--card-border);
+      border-radius: 0.75rem;
+      padding: 1rem;
+      margin-top: 1rem;
+    }
+    details {
+      margin-top: 0.5rem;
+    }
+    summary {
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <button class="theme-toggle" onclick="toggleTheme()">🌓 Toggle Theme</button>
+
+  <div class="platform-container">
+    <p><strong>Select your platform:</strong></p>
+    <button class="platform-button" onclick="selectPlatform('windows')">🪟 Windows</button>
+    <button class="platform-button" onclick="selectPlatform('mac')">🍎 macOS</button>
+    <button class="platform-button" onclick="selectPlatform('linux')">🐧 Linux</button>
+  </div>
+
+  <div id="content">
+    <div class="platform-section" data-platform="windows">
+      <h2>Windows Setup</h2>
+      <div class="step">
+        <details open><summary>Step 1: Install Python</summary>
+          <p><strong>1a.</strong> Go to the official Python website:</p>
+          <a class="external-link-button" href="https://www.python.org/downloads/windows/" target="_blank">🐍 Go to python.org</a>
+          <p><strong>1b.</strong> Download the Windows installer and run it.</p>
+          <p><strong>1c.</strong> <strong>Important:</strong> Make sure to check the box that says "Add Python to PATH" before clicking install.</p>
+        </details>
+      </div>
+      <div class="step">
+        <details><summary>Step 2: Install required libraries using pip</summary>
+          <p><strong>2a.</strong> Open Command Prompt.</p>
+          <p><strong>2b.</strong> Paste the following command and press Enter:</p>
+          <pre>pip install pyserial faster-whisper openai sounddevice scipy</pre>
+        </details>
+      </div>
+      <div class="step">
+        <details><summary>Step 3: Download the project files</summary>
+          <p><strong>3a.</strong> Download all files together as a ZIP, or download them individually below:</p>
+          <a class="download-button" href="https://example.com/files/microbit_project.zip" download>📦 Download all files as ZIP</a><br>
+          <a class="download-button" href="https://example.com/files/microbit_chatgpt.py" download>📄 Download microbit_chatgpt.py</a><br>
+          <a class="download-button" href="https://example.com/files/microbit.hex" download>📁 Download microbit.hex</a>
+        </details>
+      </div>
+      <div class="step">
+        <details><summary>Step 4: Flash your micro:bit</summary>
+          <p><strong>4a.</strong> Plug your micro:bit into your computer with a USB cable.</p>
+          <p><strong>4b.</strong> Go to MakeCode website:</p>
+          <a class="external-link-button" href="https://makecode.microbit.org/" target="_blank">💻 Go to MakeCode</a>
+          <p><strong>4c.</strong> Drag the HEX file you downloaded to the MICROBIT drive.</p>
+        </details>
+      </div>
+      <div class="step">
+        <details><summary>Step 5: Run the Python script</summary>
+          <p><strong>5a.</strong> Open Command Prompt and navigate to the folder where the script is saved.</p>
+          <p><strong>5b.</strong> Type the following command and press Enter:</p>
+          <pre>python microbit_chatgpt.py</pre>
+        </details>
+      </div>
+    </div>
+
+    <div class="platform-section" data-platform="mac">
+      <h2>macOS Setup</h2>
+      <p>Coming soon...</p>
+    </div>
+
+    <div class="platform-section" data-platform="linux">
+      <h2>Linux Setup</h2>
+      <p>Coming soon...</p>
+    </div>
+  </div>
+
+  <script>
+    window.addEventListener('DOMContentLoaded', () => {
+      const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      document.documentElement.setAttribute('data-theme', prefersDark ? 'dark' : 'light');
+      selectPlatform('windows');
+    });
+
+    function toggleTheme() {
+      const currentTheme = document.documentElement.getAttribute('data-theme');
+      const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+      document.documentElement.setAttribute('data-theme', newTheme);
+    }
+
+    function selectPlatform(platform) {
+      document.querySelectorAll('.platform-section').forEach(section => {
+        section.classList.remove('active');
+        if (section.dataset.platform === platform) {
+          section.classList.add('active');
+        }
+      });
+    }
+  </script>
+</body>
+</html>
